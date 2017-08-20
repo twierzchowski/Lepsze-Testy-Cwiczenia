@@ -50,5 +50,15 @@ namespace Domain
 
             Status = Status.Closed;
         }
+
+        public void SetSeverity(Severity severity)
+        {
+            if (!IsActive())
+            {
+                throw  new DomainException("cannot edit closed bug");
+            }
+
+            Severity = severity;
+        }
     }
 }

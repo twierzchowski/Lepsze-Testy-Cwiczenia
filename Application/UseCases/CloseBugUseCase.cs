@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace Application
+namespace Application.UseCases
 {
     public class CloseBugUseCase : ICommandHandler<CloseBugCommand>
     {

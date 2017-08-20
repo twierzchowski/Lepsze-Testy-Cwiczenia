@@ -2,6 +2,7 @@ using System.Configuration;
 using System.Web.Http;
 using System.Web.Mvc;
 using Application;
+using Application.UseCases;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
@@ -42,8 +43,9 @@ namespace WebApplication1
             builder.Register(c => new BugManagementContext(GetConnectionString())).InstancePerRequest();
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<TiageBugService>().As<ITiageBugService>();
+            builder.RegisterType(typeof(TriageBugServiceProxy));
 
-            ///
             builder.RegisterApiControllers(typeof(IoCConfig).Assembly);
 
             #endregion

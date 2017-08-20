@@ -1,5 +1,6 @@
 ﻿using System;
 using Application;
+using Application.UseCases;
 using Domain;
 using Moq;
 using NUnit.Framework;
@@ -25,7 +26,6 @@ namespace Tests
 
             //Then
             mockUnitOfWork.Verify(work => work.Save());
-
         }
     }
 }
