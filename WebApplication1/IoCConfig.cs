@@ -41,6 +41,7 @@ namespace WebApplication1
 
             builder.Register(c => new BugManagementContext(GetConnectionString())).InstancePerRequest();
 
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
             ///
             builder.RegisterApiControllers(typeof(IoCConfig).Assembly);

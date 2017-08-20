@@ -3,7 +3,7 @@ using EnsureThat;
 
 namespace Application
 {
-    class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly BugManagementContext _context;
 
