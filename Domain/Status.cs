@@ -4,6 +4,9 @@
     {
         public string Value {get; set; }
         
+        private Status()
+        { }
+
         public Status(string name)
         {
             Value = name;

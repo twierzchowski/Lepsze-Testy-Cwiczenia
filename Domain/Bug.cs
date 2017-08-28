@@ -23,7 +23,7 @@ namespace Domain
             return Status != Status.Closed;
         }
 
-        public void Close(string commandReason)
+        public BugHistory Close(string commandReason)
         {
             if (!IsActive())
             {
@@ -36,6 +36,8 @@ namespace Domain
             }
 
             Status = Status.Closed;
+
+            return new BugHistory(this);
         }
 
         public void SetSeverity(Severity severity)

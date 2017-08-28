@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BugHistoryRepository.cs" />
     <Compile Include="BugsDbInitializer.cs" />
     <Compile Include="BugSeed.cs" />
     <Compile Include="DTOs\BugDTO.cs" />
