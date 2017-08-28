@@ -55,5 +55,7 @@ namespace Tests
             bug.Close("reason");
             return bug;
         }
+
+        //todo status tests
     }
 }

@@ -18,7 +18,7 @@ namespace Application.UseCases
         {
             var bug = _bugRepository.GetById(command.BugId);
             var severity = _triageBugService.GetTriage(bug.Title);
-            bug.SetSeverity(new Severity(severity));
+            bug.Triage(new Severity(severity), Priority.High);
             _unitOfWork.Save();
         }
     }

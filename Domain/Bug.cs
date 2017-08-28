@@ -19,17 +19,6 @@ namespace Domain
             Priority = Priority.Medium;
             Status = Status.New;
         }
-        //public Bug(Guid id, string title, string description)
-        //{
-        //    Id = id;
-        //    Title = title;
-        //    Description = description;
-        //}
-
-        void AssignToUser()
-        {
-            
-        }
 
         public bool IsActive()
         {
@@ -59,6 +48,38 @@ namespace Domain
             }
 
             Severity = severity;
+        }
+
+        public void Triage(Severity severity, Priority priority)
+        {
+            if (!IsActive())
+            {
+                throw new DomainException("cannot edit closed bug");
+            }
+
+            Severity = severity;
+            Priority = priority;
+            Status = Status.Todo;
+        }
+
+        public void Resolve()
+        {
+            if (Status != Status.Todo)
+            {
+                throw new DomainException($"Cannot resolved bug with status {Status}");
+            }
+
+            Status = Status.Resolved;
+        }
+
+        public void Renew()
+        {
+            if (Status != Status.Resolved)
+            {
+                throw new DomainException($"Cannot renew bug with status {Status}");
+            }
+
+            Status = Status.New;
         }
     }
 }

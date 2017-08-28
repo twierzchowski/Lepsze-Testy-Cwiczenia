@@ -2,7 +2,7 @@
 
 namespace Application.UseCases
 {
-    public class CreateBugUseCase : ICommandHandler<CreateBugCommand>, ICommandHandler<CloseBugCommand>
+    public class CreateBugUseCase : ICommandHandler<CreateBugCommand>
     {
         private readonly IBugRepository _bugRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -23,14 +23,6 @@ namespace Application.UseCases
             };
 
             _bugRepository.Store(bug);
-            _unitOfWork.Save();
-        }
-
-        public void Handle(CloseBugCommand command)
-        {
-            var bug = _bugRepository.GetById(command.Id);
-            
-            bug.Close(command.Reason);
             _unitOfWork.Save();
         }
     }
