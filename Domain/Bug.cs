@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Schema;
 
 namespace Domain
 {
@@ -8,10 +7,9 @@ namespace Domain
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Severity Severity { get; set; }
-        public Priority Priority { get; set; }
-
-        public Status Status { get; set; }
+        public Severity Severity { get; private set; }
+        public Priority Priority { get; private set; }
+        public Status Status { get; private set; }
 
         public Bug()
         {

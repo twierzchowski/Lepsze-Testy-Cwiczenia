@@ -64,7 +64,5 @@ namespace WebApplication1.Controllers
         {
             _autoTriageCommandHandler.Handle(command);
         }
-
-
     }
 }
