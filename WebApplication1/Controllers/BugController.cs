@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Routing;
 using Application;
+using DataAccess;
 using DataAccess.DTOs;
+using DataAccess.ReadModel;
 using Domain;
 
 namespace WebApplication1.Controllers
@@ -29,10 +30,21 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         [Route("bugs")]
-        public List<BugDTO> Search()
+        public List<BugDTO> Search([FromUri]BugSearchCriteria bugSearchCriteria)
         {
-            return _bugRepository.GetActiveBugs().Select(bug => new BugDTO{Id = bug.Id, Title = bug.Title}).ToList();
-        }
+            return new TestWorkshopEntities().Bugs
+                .WhereIf(bugSearchCriteria?.Id != null, b => b.Id == bugSearchCriteria.Id.Value)
+                .WhereIf(bugSearchCriteria?.Severity!= null, b => b.Severity_Value == bugSearchCriteria.Severity.Value)
+                .Select(bug => new BugDTO
+                {
+                        Id = bug.Id,
+                        Title = bug.Title,
+                        Description = bug.Description,
+                        Priority = bug.Priority_Value,
+                        Severity = bug.Severity_Value,
+                        Status = bug.Status_Value
+                    }).ToList();
+                }
 
         [HttpPost]
         [Route("bugs")]

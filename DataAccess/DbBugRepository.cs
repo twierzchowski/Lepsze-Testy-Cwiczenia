@@ -20,7 +20,7 @@ namespace DataAccess
                 .SingleOrDefault(b => b.Id == bugId);
         }
 
-        public List<Bug> GetActiveBugs()
+        public List<Bug> GetBugs()
         {
             return _bugManagementContext.Bugs.ToList();
         }
