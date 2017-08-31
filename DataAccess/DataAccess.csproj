@@ -56,7 +56,6 @@
     <Compile Include="BugManagementContext.cs" />
     <Compile Include="DbBugRepository.cs" />
     <Compile Include="DTOs\BugSearchCriteria.cs" />
-    <Compile Include="LinqExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProritySeed.cs" />
     <Compile Include="ReadModel\BugHistories.cs">

@@ -16,7 +16,6 @@ namespace DataAccess
         public Bug GetById(Guid bugId)
         {
             return _bugManagementContext.Bugs
-                //.Include(x => x.Priority)
                 .SingleOrDefault(b => b.Id == bugId);
         }
 

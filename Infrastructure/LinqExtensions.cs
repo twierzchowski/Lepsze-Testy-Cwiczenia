@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace DataAccess
+namespace Infrastructure
 {
         public static class LinqExtensions
         {

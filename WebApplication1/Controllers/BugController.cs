@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Application;
-using DataAccess;
 using DataAccess.DTOs;
 using DataAccess.ReadModel;
 using Domain;
+using Infrastructure;
 
 namespace WebApplication1.Controllers
 {
