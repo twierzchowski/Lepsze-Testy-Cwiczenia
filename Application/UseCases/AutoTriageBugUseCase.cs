@@ -17,8 +17,9 @@ namespace Application.UseCases
         public void Handle(AutoTriageBugCommand command)
         {
             var bug = _bugRepository.GetById(command.BugId);
-            var severity = _triageBugService.GetTriage(bug.Title);
-            bug.Triage(new Severity(severity), Priority.High);
+            var severity = _triageBugService.GetSeverity(bug.Title);
+            var priority = _triageBugService.GetPriority(bug.Title);
+            bug.Triage(new Severity(severity), new Priority(priority));
             _unitOfWork.Save();
         }
     }

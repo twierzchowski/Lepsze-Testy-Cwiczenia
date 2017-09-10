@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 
 namespace Application
 {
@@ -12,31 +10,44 @@ namespace Application
         {
             _serviceProxy = serviceProxy;
         }
-        public int GetTriage(string description)
+        public int GetSeverity(string description)
         {
-            return _serviceProxy.GetTriage(description);
+            return _serviceProxy.GetSeverity(description);
+        }
+
+        public int GetPriority(string description)
+        {
+            return _serviceProxy.GetPriority(description);
         }
     }
 
     public class TriageBugServiceProxy
     {
-        public TriageBugServiceProxy()
-        {
-            
-        }
-        public int GetTriage(string description)
+        public int GetSeverity(string title)
         {
             using (var client = new HttpClient())
             {
-                var content = new StringContent(description, Encoding.UTF8, "application/json");
-                string url = "http://localhost:55086/api/triagebug";
-                
+                const string url = "http://localhost:55086/api/triagebug/severity";
 
-                HttpResponseMessage response = client.PostAsJsonAsync(url, description).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync(url, title).Result;
                 response.EnsureSuccessStatusCode();
 
                 var severity = response.Content.ReadAsAsync<int>().Result;
                 return severity;
+            }
+        }
+
+        public int GetPriority(string title)
+        {
+            using (var client = new HttpClient())
+            {
+                const string url = "http://localhost:55086/api/triagebug/priority";
+
+                HttpResponseMessage response = client.PostAsJsonAsync(url, title).Result;
+                response.EnsureSuccessStatusCode();
+
+                var priority = response.Content.ReadAsAsync<int>().Result;
+                return priority;
             }
         }
     }

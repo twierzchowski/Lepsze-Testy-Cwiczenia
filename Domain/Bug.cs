@@ -18,44 +18,10 @@ namespace Domain
             Status = Status.New;
         }
 
-        public bool IsActive()
-        {
-            return Status != Status.Closed;
-        }
-
-        public BugHistory Close(string commandReason)
-        {
-            if (!IsActive())
-            {
-                throw new DomainException("cannot close not active bug");
-            }
-
-            if (string.IsNullOrWhiteSpace(commandReason))
-            {
-                throw new DomainException("cannot close bug without reason");
-            }
-
-            Status = Status.Closed;
-
-            return new BugHistory(this);
-        }
-
-        public void SetSeverity(Severity severity)
-        {
-            if (!IsActive())
-            {
-                throw  new DomainException("cannot edit closed bug");
-            }
-
-            Severity = severity;
-        }
-
         public void Triage(Severity severity, Priority priority)
         {
             if (!IsActive())
-            {
                 throw new DomainException("cannot edit closed bug");
-            }
 
             Severity = severity;
             Priority = priority;
@@ -65,9 +31,7 @@ namespace Domain
         public void Resolve()
         {
             if (Status != Status.Todo)
-            {
                 throw new DomainException($"Cannot resolved bug with status {Status}");
-            }
 
             Status = Status.Resolved;
         }
@@ -75,11 +39,27 @@ namespace Domain
         public void Renew()
         {
             if (Status != Status.Resolved)
-            {
                 throw new DomainException($"Cannot renew bug with status {Status}");
-            }
 
             Status = Status.New;
+        }
+
+        public BugHistory Close(string commandReason)
+        {
+            if (!IsActive())
+                throw new DomainException("cannot close not active bug");
+
+            if (string.IsNullOrWhiteSpace(commandReason))
+                throw new DomainException("cannot close bug without reason");
+
+            Status = Status.Closed;
+
+            return new BugHistory(this);
+        }
+
+        public bool IsActive()
+        {
+            return Status != Status.Closed;
         }
     }
 }

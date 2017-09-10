@@ -2,6 +2,7 @@
 {
     public interface ITiageBugService
     {
-        int GetTriage(string description);
+        int GetSeverity(string description);
+        int GetPriority(string description);
     }
 }
