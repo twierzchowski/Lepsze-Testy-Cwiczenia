@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Commands;
+using Domain;
 
 namespace Application.UseCases
 {
@@ -16,7 +17,7 @@ namespace Application.UseCases
         }
         public void Handle(AutoTriageBugCommand command)
         {
-            var bug = _bugRepository.GetById(command.BugId);
+            var bug = _bugRepository.GetById(command.Id);
             var severity = _triageBugService.GetSeverity(bug.Title);
             var priority = _triageBugService.GetPriority(bug.Title);
             Severity S;

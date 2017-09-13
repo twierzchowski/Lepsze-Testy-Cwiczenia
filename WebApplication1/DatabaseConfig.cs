@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using DataAccess;
 
-namespace WebApplication1
+namespace WebApplication
 {
     public class DatabaseConfig
     {

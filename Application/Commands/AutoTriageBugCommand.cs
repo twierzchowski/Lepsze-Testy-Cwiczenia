@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Application
+namespace Application.Commands
 {
     public class AutoTriageBugCommand : ICommand
     {
-        public Guid BugId { get; set; }
+        public Guid Id { get; set; }
     }
 }

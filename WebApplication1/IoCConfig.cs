@@ -8,7 +8,7 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using DataAccess;
 
-namespace WebApplication1
+namespace WebApplication
 {
     public class IoCConfig
     {

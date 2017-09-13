@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ResolveBugCommand.cs" />
+    <Compile Include="UseCases\ResolveBugUseCase.cs" />
     <Compile Include="Commands\AutoTriageBugCommand.cs" />
     <Compile Include="TiageBugService.cs" />
     <Compile Include="Commands\TriageBugCommand.cs" />

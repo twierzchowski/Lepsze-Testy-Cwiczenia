@@ -6,9 +6,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using WebApplication1.Models;
+using WebApplication.Models;
+using WebApplication1;
 
-namespace WebApplication1.Controllers
+namespace WebApplication.Controllers
 {
     [Authorize]
     public class AccountController : Controller

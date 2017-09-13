@@ -2,9 +2,8 @@
 
 namespace Application.Commands
 {
-    public class CloseBugCommand : ICommand
+    public class ResolveBugCommand : ICommand
     {
         public Guid Id { get; set; }
-        public string Reason { get; set; }
     }
 }

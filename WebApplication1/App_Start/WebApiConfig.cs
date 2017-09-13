@@ -2,7 +2,7 @@
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
-namespace WebApplication1
+namespace WebApplication
 {
     public static class WebApiConfig
     {

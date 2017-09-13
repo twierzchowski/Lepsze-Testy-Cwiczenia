@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Application;
+using Application.Commands;
 using DataAccess.DTOs;
 using DataAccess.ReadModel;
 using Domain;
 using Infrastructure;
 
-namespace WebApplication1.Controllers
+namespace WebApplication.Controllers
 {
     public class BugController : ApiController
     {
         private readonly ICommandHandler<CreateBugCommand> _createBugCommandHandler;
         private readonly ICommandHandler<CloseBugCommand> _closeBugCommandHandler;
         private readonly ICommandHandler<AutoTriageBugCommand> _autoTriageCommandHandler;
-        private readonly IBugRepository _bugRepository;
+        private readonly ICommandHandler<ResolveBugCommand> _resoleBugCommandHandler;
 
         public BugController(ICommandHandler<CreateBugCommand> createBugCommandHandler,
             ICommandHandler<CloseBugCommand> closeBugCommandHandler,
             ICommandHandler<AutoTriageBugCommand> autoTriageCommandHandler,
+            ICommandHandler<ResolveBugCommand> resoleBugCommandHandler,
             IBugRepository bugRepository)
         {
             _createBugCommandHandler = createBugCommandHandler;
             _closeBugCommandHandler = closeBugCommandHandler;
             _autoTriageCommandHandler = autoTriageCommandHandler;
-            _bugRepository = bugRepository;
+            _resoleBugCommandHandler = resoleBugCommandHandler;
         }
 
         [HttpGet]
@@ -54,15 +56,6 @@ namespace WebApplication1.Controllers
             _createBugCommandHandler.Handle(command);
         }
 
-        [HttpPut]
-        [Route("bugs/{bugId}/close")]
-        public void CloseBug(Guid bugId, CloseBugCommand command)
-        {
-            command.Id = bugId;
-
-            _closeBugCommandHandler.Handle(command);
-        }
-
         [HttpPost]
         [Route("Bugs/{bugId}/triage")]
         public void Triage(Guid bugId, TriageBugCommand command)
@@ -74,7 +67,25 @@ namespace WebApplication1.Controllers
         [Route("bugs/{bugId}/autotriage")]
         public void AutoTraige(Guid bugId, AutoTriageBugCommand command)
         {
+            command.Id = bugId;
             _autoTriageCommandHandler.Handle(command);
+        }
+
+        [HttpPost]
+        [Route("Bugs/{bugId}/resolve")]
+        public void Resolve(Guid bugId, ResolveBugCommand command)
+        {
+            command.Id = bugId;
+            _resoleBugCommandHandler.Handle(command);
+        }
+
+
+        [HttpPut]
+        [Route("bugs/{bugId}/close")]
+        public void CloseBug(Guid bugId, CloseBugCommand command)
+        {
+            command.Id = bugId;
+            _closeBugCommandHandler.Handle(command);
         }
     }
 }

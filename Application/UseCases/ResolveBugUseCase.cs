@@ -3,20 +3,21 @@ using Domain;
 
 namespace Application.UseCases
 {
-    public class TriageBugUseCase : ICommandHandler<TriageBugCommand>
+    public class ResolveBugUseCase : ICommandHandler<ResolveBugCommand>
     {
         private readonly IBugRepository _bugRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TriageBugUseCase(IBugRepository bugRepository, IUnitOfWork unitOfWork)
+        public ResolveBugUseCase(IBugRepository bugRepository, IUnitOfWork unitOfWork)
         {
             _bugRepository = bugRepository;
             _unitOfWork = unitOfWork;
         }
-        public void Handle(TriageBugCommand command)
+
+        public void Handle(ResolveBugCommand command)
         {
             var bug = _bugRepository.GetById(command.Id);
-            bug.Triage(command.Severity, command.Priority);
+            bug.Resolve();
             _unitOfWork.Save();
         }
     }

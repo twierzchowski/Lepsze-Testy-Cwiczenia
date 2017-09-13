@@ -77,6 +77,10 @@
       <Project>{6EFA7454-880E-4281-BAE3-CA47C8D71F0D}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebApplication1\WebApplication.csproj">
+      <Project>{EA05A1BA-62BB-4CED-9AC8-424081EC6362}</Project>
+      <Name>WebApplication</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
