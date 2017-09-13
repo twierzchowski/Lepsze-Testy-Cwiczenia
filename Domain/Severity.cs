@@ -12,7 +12,6 @@ namespace Domain
         }
         public Severity(int severity)
         {
-            //ensure 0<s<4
             Value = severity;
         }
         public static Severity Low = new Severity(3);

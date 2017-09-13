@@ -8,14 +8,9 @@ namespace DataAccess
         public DbSet<Bug> Bugs { get; set; }
 
         public DbSet<BugHistory> AuditLogs { get; set; }
-
-        //public DbSet<Severity> Severities { get; set; }
-
-        //public DbSet<Priority> Priorities { get; set; }
         public BugManagementContext(string connectionString) : base(connectionString)
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<BugManagementContext>());
-
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

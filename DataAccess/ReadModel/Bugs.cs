@@ -17,8 +17,8 @@ namespace DataAccess.ReadModel
         public System.Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string Status_Value { get; set; }
         public int Severity_Value { get; set; }
         public int Priority_Value { get; set; }
-        public string Status_Value { get; set; }
     }
 }

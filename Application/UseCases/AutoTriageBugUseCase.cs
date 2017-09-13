@@ -19,7 +19,40 @@ namespace Application.UseCases
             var bug = _bugRepository.GetById(command.BugId);
             var severity = _triageBugService.GetSeverity(bug.Title);
             var priority = _triageBugService.GetPriority(bug.Title);
-            bug.Triage(new Severity(severity), new Priority(priority));
+            Severity S;
+            Priority P;
+            switch (severity)
+            {
+                case 1:
+                    S = Severity.High;
+                    break;
+                case 2:
+                    S = Severity.Medium;
+                    break;
+                case 3:
+                    S = Severity.Low;
+                    break;
+                default:
+                    S = Severity.Medium;
+                    break;
+            }
+
+            switch (priority)
+            {
+                case 1:
+                    P = Priority.High;
+                    break;
+                case 2:
+                    P = Priority.Medium;
+                    break;
+                case 3:
+                    P = Priority.Low;
+                    break;
+                default:
+                    P = Priority.Medium;
+                    break;
+            }
+            bug.Triage(S, P);
             _unitOfWork.Save();
         }
     }

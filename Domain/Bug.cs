@@ -20,12 +20,20 @@ namespace Domain
 
         public void Triage(Severity severity, Priority priority)
         {
-            if (!IsActive())
-                throw new DomainException("cannot edit closed bug");
+            if (Status != Status.New)
+                throw new DomainException("Cannot triage not new bug");
 
             Severity = severity;
             Priority = priority;
             Status = Status.Todo;
+        }
+
+        public void TriageExpired()
+        {
+            if (Status != Status.Todo)
+                throw  new DomainException($"Traige cannot be expired in status {Status}");
+
+            Status = Status.New;
         }
 
         public void Resolve()
@@ -33,12 +41,12 @@ namespace Domain
             if (Status != Status.Todo)
                 throw new DomainException($"Cannot resolved bug with status {Status}");
 
-            Status = Status.Resolved;
+            Status = Status.Done;
         }
 
         public void Renew()
         {
-            if (Status != Status.Resolved)
+            if (Status != Status.Done)
                 throw new DomainException($"Cannot renew bug with status {Status}");
 
             Status = Status.New;
@@ -46,11 +54,11 @@ namespace Domain
 
         public BugHistory Close(string commandReason)
         {
-            if (!IsActive())
-                throw new DomainException("cannot close not active bug");
+            if (Status != Status.Done)
+                throw new DomainException("Cannot close not resolved bug");
 
             if (string.IsNullOrWhiteSpace(commandReason))
-                throw new DomainException("cannot close bug without reason");
+                throw new DomainException("Cannot close bug without reason");
 
             Status = Status.Closed;
 

@@ -42,8 +42,9 @@ namespace Application
             using (var client = new HttpClient())
             {
                 const string url = "http://localhost:55086/api/triagebug/priority";
+                var urlWithParam = $"{url}?title={title}";
 
-                HttpResponseMessage response = client.PostAsJsonAsync(url, title).Result;
+                HttpResponseMessage response = client.GetAsync(urlWithParam).Result;
                 response.EnsureSuccessStatusCode();
 
                 var priority = response.Content.ReadAsAsync<int>().Result;

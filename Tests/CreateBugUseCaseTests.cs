@@ -4,7 +4,6 @@ using Application.UseCases;
 using Domain;
 using Moq;
 using NUnit.Framework;
-using Shouldly;
 
 namespace Tests
 {

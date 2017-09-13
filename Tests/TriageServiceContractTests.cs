@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Web.Script.Serialization;
 using NUnit.Framework;
@@ -23,6 +24,26 @@ namespace Tests
 
             //Then
             response.Content.ReadAsStringAsync().Result.ShouldBe("3");
+        }
+
+        [Test]
+        public void TriageService_WhenCalledWithMissingTitle_ExceptionIsThrown()
+        {
+            //Given
+            var url = "http://localhost:55086/api/triagebug/severity";
+            var bugTitle = string.Empty;
+
+            //When
+            var client = new HttpClient();
+            Action action = () =>
+            {
+                client.PostAsync(url, new StringContent(
+                    new JavaScriptSerializer().Serialize(bugTitle), Encoding.UTF8, "application/json")).Wait();
+            };
+
+
+            //Then
+            Should.Throw<Exception>(action);
         }
 
         [Test]
