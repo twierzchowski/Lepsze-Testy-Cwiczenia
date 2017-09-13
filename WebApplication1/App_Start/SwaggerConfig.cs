@@ -1,11 +1,11 @@
 using System.Web.Http;
 using WebActivatorEx;
-using WebApplication1;
+using WebApplication;
 using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace WebApplication1
+namespace WebApplication
 {
     public class SwaggerConfig
     {
@@ -32,7 +32,7 @@ namespace WebApplication1
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "WebApplication1");
+                        c.SingleApiVersion("v1", "WebApplication");
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //

@@ -1,5 +1,6 @@
 ﻿using System;
 using Domain;
+using Infrastructure;
 using NUnit.Framework;
 using Shouldly;
 
@@ -51,6 +52,20 @@ namespace Tests
             bug.Resolve();
             //Then
             bug.Status.ShouldBe(Status.Done);
+        }
+
+        [Test]
+        public void Bug_WhenResolveOnWeekend_ThenExceptionIsThrown()
+        {
+            //Given
+            Bug bug = new Bug();
+            bug.Triage(Severity.High, Priority.High);
+            var sundayDate = new DateTime(2017, 10, 1);
+            TimeProvider.Current = new TestTimeProvider(sundayDate);
+            //When
+            Action action = () => bug.Resolve();
+            //Then
+            Should.Throw<DomainException>(action);
         }
 
         [Test]

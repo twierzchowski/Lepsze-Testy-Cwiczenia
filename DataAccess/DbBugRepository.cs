@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Domain;
 
@@ -17,11 +16,6 @@ namespace DataAccess
         {
             return _bugManagementContext.Bugs
                 .SingleOrDefault(b => b.Id == bugId);
-        }
-
-        public List<Bug> GetBugs()
-        {
-            return _bugManagementContext.Bugs.ToList();
         }
 
         public void Store(Bug bug)

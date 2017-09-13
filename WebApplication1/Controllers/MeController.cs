@@ -3,7 +3,7 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using WebApplication.Models;
-using WebApplication1;
+using WebApplication;
 
 namespace WebApplication.Controllers
 {

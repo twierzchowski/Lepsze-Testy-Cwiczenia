@@ -16,14 +16,13 @@ namespace Tests
             //Given
             var url = "http://localhost:55086/api/triagebug/severity";
             var bugTitle = "test";
-            
             //When
             var client = new HttpClient();
             HttpResponseMessage response = client.PostAsync(url, new StringContent(
                 new JavaScriptSerializer().Serialize(bugTitle), Encoding.UTF8, "application/json")).Result;
-
             //Then
-            response.Content.ReadAsStringAsync().Result.ShouldBe("3");
+            var expectedSeverity = "3";
+            response.Content.ReadAsStringAsync().Result.ShouldBe(expectedSeverity);
         }
 
         [Test]
@@ -32,7 +31,6 @@ namespace Tests
             //Given
             var url = "http://localhost:55086/api/triagebug/severity";
             var bugTitle = string.Empty;
-
             //When
             var client = new HttpClient();
             Action action = () =>
@@ -40,8 +38,6 @@ namespace Tests
                 client.PostAsync(url, new StringContent(
                     new JavaScriptSerializer().Serialize(bugTitle), Encoding.UTF8, "application/json")).Wait();
             };
-
-
             //Then
             Should.Throw<Exception>(action);
         }
@@ -53,13 +49,12 @@ namespace Tests
             var url = "http://localhost:55086/api/triagebug/priority";
             var bugTitle = "test";
             var urlWithParam = $"{url}?title={bugTitle}";
-
             //When
             var client = new HttpClient();
             HttpResponseMessage response = client.GetAsync(urlWithParam).Result;
-
             //Then
-            response.Content.ReadAsStringAsync().Result.ShouldBe("1");
+            var expectedPriority = "1";
+            response.Content.ReadAsStringAsync().Result.ShouldBe(expectedPriority);
         }
     }
 }

@@ -56,6 +56,7 @@
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestTimeProvider.cs" />
     <Compile Include="TriageServiceContractTests.cs" />
     <Compile Include="BugControllerTests.cs" />
     <Compile Include="BugTests.cs" />
@@ -73,9 +74,17 @@
       <Project>{5A0878D9-4DD9-414F-A07B-729903943CF3}</Project>
       <Name>Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{554080EB-42D2-4DB0-A285-C59091CDDE4B}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{6EFA7454-880E-4281-BAE3-CA47C8D71F0D}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{7EA4042B-8BD4-427B-83B9-4AACB728855E}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebApplication1\WebApplication.csproj">
       <Project>{EA05A1BA-62BB-4CED-9AC8-424081EC6362}</Project>
