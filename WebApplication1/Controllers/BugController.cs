@@ -15,17 +15,19 @@ namespace WebApplication.Controllers
     {
         private readonly ICommandHandler<CreateBugCommand> _createBugCommandHandler;
         private readonly ICommandHandler<CloseBugCommand> _closeBugCommandHandler;
+        private readonly ICommandHandler<TriageBugCommand> _triageCommandHandler;
         private readonly ICommandHandler<AutoTriageBugCommand> _autoTriageCommandHandler;
         private readonly ICommandHandler<ResolveBugCommand> _resoleBugCommandHandler;
 
         public BugController(ICommandHandler<CreateBugCommand> createBugCommandHandler,
             ICommandHandler<CloseBugCommand> closeBugCommandHandler,
+            ICommandHandler<TriageBugCommand> triageCommandHandler,
             ICommandHandler<AutoTriageBugCommand> autoTriageCommandHandler,
-            ICommandHandler<ResolveBugCommand> resoleBugCommandHandler,
-            IBugRepository bugRepository)
+            ICommandHandler<ResolveBugCommand> resoleBugCommandHandler)
         {
             _createBugCommandHandler = createBugCommandHandler;
             _closeBugCommandHandler = closeBugCommandHandler;
+            _triageCommandHandler = triageCommandHandler;
             _autoTriageCommandHandler = autoTriageCommandHandler;
             _resoleBugCommandHandler = resoleBugCommandHandler;
         }
@@ -36,7 +38,10 @@ namespace WebApplication.Controllers
         {
             return new TestWorkshopEntities().Bugs
                 .WhereIf(bugSearchCriteria?.Id != null, b => b.Id == bugSearchCriteria.Id.Value)
+                .WhereIf(bugSearchCriteria?.Title != null, b => b.Title.Contains(bugSearchCriteria.Title))
                 .WhereIf(bugSearchCriteria?.Severity!= null, b => b.Severity_Value == bugSearchCriteria.Severity.Value)
+                .WhereIf(bugSearchCriteria?.Priority != null, b => b.Severity_Value == bugSearchCriteria.Priority.Value)
+                .WhereIf(bugSearchCriteria?.Status != null, b => b.Status_Value == bugSearchCriteria.Status)
                 .Select(bug => new BugDTO
                 {
                         Id = bug.Id,
@@ -50,41 +55,46 @@ namespace WebApplication.Controllers
 
         [HttpPost]
         [Route("bugs")]
-        public void AddBug(CreateBugCommand command)
+        public void AddBug(string title, string description)
         {
-            command.Id = Guid.NewGuid();
+            var command = new CreateBugCommand {Id = Guid.NewGuid(), Title = title, Description = description};
             _createBugCommandHandler.Handle(command);
         }
 
         [HttpPost]
         [Route("Bugs/{bugId}/triage")]
-        public void Triage(Guid bugId, TriageBugCommand command)
+        public void Triage(Guid bugId, int priority, int severity)
         {
-            
+            var command = new TriageBugCommand
+            {
+                Id = bugId,
+                Priority = new Priority(priority),
+                Severity = new Severity(severity)
+            };
+            _triageCommandHandler.Handle(command);
         }
 
         [HttpPost]
         [Route("bugs/{bugId}/autotriage")]
-        public void AutoTraige(Guid bugId, AutoTriageBugCommand command)
+        public void AutoTraige(Guid bugId)
         {
-            command.Id = bugId;
+            var command = new AutoTriageBugCommand{Id = bugId};
             _autoTriageCommandHandler.Handle(command);
         }
 
         [HttpPost]
         [Route("Bugs/{bugId}/resolve")]
-        public void Resolve(Guid bugId, ResolveBugCommand command)
+        public void Resolve(Guid bugId)
         {
-            command.Id = bugId;
+            var command = new ResolveBugCommand{Id = bugId};
             _resoleBugCommandHandler.Handle(command);
         }
 
-
         [HttpPut]
         [Route("bugs/{bugId}/close")]
-        public void CloseBug(Guid bugId, CloseBugCommand command)
+        public void CloseBug(Guid bugId, string reason)
         {
-            command.Id = bugId;
+            var command = new CloseBugCommand{Id = bugId, Reason = reason};
             _closeBugCommandHandler.Handle(command);
         }
     }

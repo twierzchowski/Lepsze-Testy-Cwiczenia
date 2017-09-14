@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using Application;
 using Application.Commands;
 using Application.UseCases;
+using Autofac;
+using DataAccess;
 using Domain;
 using Moq;
 using NUnit.Framework;
@@ -52,12 +55,21 @@ namespace Tests
         }
 
         [Test]
-        [Ignore("todo")]
         public void RealImplementation_CreateBug_WhenNewBugCreated_ThenRepositoryContainsCreatedBug()
         {
+            //DI setup
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            containerBuilder.RegisterAssemblyTypes(typeof(DbBugRepository).Assembly)
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+            containerBuilder.Register(c => new BugManagementContext(ConfigurationManager.ConnectionStrings["TestConnection"].ConnectionString)).InstancePerLifetimeScope();
+            var container = containerBuilder.Build();
+
             //Given
-            IBugRepository bugRepository = new MockBugRepository();
-            IUnitOfWork unitOfWork = new MockUnitOfWork();
+            IUnitOfWork unitOfWork = container.Resolve<IUnitOfWork>();
+            IBugRepository bugRepository = container.Resolve<IBugRepository>();
 
             var createBugUseCase = new CreateBugUseCase(bugRepository, unitOfWork);
             var guid = Guid.NewGuid();

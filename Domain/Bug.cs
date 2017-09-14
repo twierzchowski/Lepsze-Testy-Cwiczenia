@@ -42,7 +42,7 @@ namespace Domain
         public void TriageExpired()
         {
             if (Status != Status.Todo)
-                throw  new DomainException($"Traige cannot be expired in status {Status}");
+                throw  new DomainException($"Traige cannot be expired in status {Status.Value}");
 
             Status = Status.New;
             UpdateEditionDateTime();
@@ -51,7 +51,7 @@ namespace Domain
         public void Resolve()
         {
             if (Status != Status.Todo)
-                throw new DomainException($"Cannot resolved bug with status {Status}");
+                throw new DomainException($"Cannot resolved bug with status {Status.Value}");
 
             //cannot edit bugs on weekends ;)
             var dayOfWeek = TimeProvider.Current.Now.DayOfWeek;
@@ -67,7 +67,7 @@ namespace Domain
         public void Renew()
         {
             if (Status != Status.Done)
-                throw new DomainException($"Cannot renew bug with status {Status}");
+                throw new DomainException($"Cannot renew bug with status {Status.Value}");
 
             Status = Status.New;
             UpdateEditionDateTime();
