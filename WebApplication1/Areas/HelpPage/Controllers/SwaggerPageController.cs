@@ -6,14 +6,14 @@ namespace WebApplication.Areas.HelpPage.Controllers
     /// <summary>
     /// The controller that will handle requests for the help page.
     /// </summary>
-    public class HelpController : Controller
+    public class SwaggerPageController : Controller
     {
-        public HelpController()
+        public SwaggerPageController()
             : this(GlobalConfiguration.Configuration)
         {
         }
 
-        public HelpController(HttpConfiguration config)
+        public SwaggerPageController(HttpConfiguration config)
         {
             Configuration = config;
         }
