@@ -57,15 +57,7 @@ namespace Tests
         [Test]
         public void RealImplementation_CreateBug_WhenNewBugCreated_ThenRepositoryContainsCreatedBug()
         {
-            //DI setup
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
-            containerBuilder.RegisterAssemblyTypes(typeof(DbBugRepository).Assembly)
-                .AsSelf()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-            containerBuilder.Register(c => new BugManagementContext(ConfigurationManager.ConnectionStrings["TestConnection"].ConnectionString)).InstancePerLifetimeScope();
-            var container = containerBuilder.Build();
+            IContainer container = CreateTestDIContainer();
 
             //Given
             IUnitOfWork unitOfWork = container.Resolve<IUnitOfWork>();
@@ -83,6 +75,19 @@ namespace Tests
             bugRepository.GetById(guid).Title.ShouldBe("Title");
             bugRepository.GetById(guid).Status.ShouldBe(Status.New);
         }
+
+        private static IContainer CreateTestDIContainer()
+        {
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            containerBuilder.RegisterAssemblyTypes(typeof(DbBugRepository).Assembly)
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+            containerBuilder.Register(c => new BugManagementContext(ConfigurationManager.ConnectionStrings["TestConnection"].ConnectionString)).InstancePerLifetimeScope();
+            var container = containerBuilder.Build();
+            return container;
+        }
     }
 
     public class MockUnitOfWork : IUnitOfWork
@@ -94,9 +99,9 @@ namespace Tests
     public class MockBugRepository : IBugRepository
     {
         private List<Bug> _bugs = new List<Bug>();
-        public Bug GetById(Guid bugId)
+        public Bug GetById(Guid id)
         {
-            return _bugs.Find(b => b.Id == bugId);
+            return _bugs.Find(b => b.Id == id);
         }
 
         public void Store(Bug bug)

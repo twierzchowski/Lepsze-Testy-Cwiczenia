@@ -13,6 +13,7 @@ namespace Domain
         public Status Status { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
         public DateTime LastEditionDateTime { get; private set; }
+        public virtual User AssignedUser { get; private set; }
 
         public Bug()
         {
@@ -28,6 +29,17 @@ namespace Domain
             LastEditionDateTime = TimeProvider.Current.Now;
         }
 
+        public void AssignUser(User user)
+        {
+            AssignedUser = user;
+        }
+
+        public void UnassignUser()
+        {
+            AssignedUser = null;
+        }
+
+        #region bug status methods
         public void Triage(Severity severity, Priority priority)
         {
             if (Status != Status.New)
@@ -52,6 +64,9 @@ namespace Domain
         {
             if (Status != Status.Todo)
                 throw new DomainException($"Cannot resolved bug with status {Status.Value}");
+
+            if (AssignedUser == null)
+                throw new DomainException("Cannot resolve bug without assigned user");
 
             //cannot edit bugs on weekends ;)
             var dayOfWeek = TimeProvider.Current.Now.DayOfWeek;
@@ -78,14 +93,16 @@ namespace Domain
             if (Status != Status.Done)
                 throw new DomainException("Cannot close not resolved bug");
 
-            if (string.IsNullOrWhiteSpace(commandReason))
-                throw new DomainException("Cannot close bug without reason");
+            if (AssignedUser == null)
+                throw new DomainException("Cannot close bug without assigned user");
 
             Status = Status.Closed;
+            UnassignUser();
             UpdateEditionDateTime();
 
             return new BugHistory(this);
         }
+        #endregion
 
         public bool IsActive()
         {

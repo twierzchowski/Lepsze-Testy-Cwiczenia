@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using DataAccess;
+using DataAccess.ReadModel;
 
 namespace WebApplication
 {
@@ -43,8 +44,11 @@ namespace WebApplication
             builder.Register(c => new BugManagementContext(GetConnectionString())).InstancePerRequest();
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+
             builder.RegisterType<TiageBugService>().As<ITiageBugService>();
+
             builder.RegisterType(typeof(TriageBugServiceProxy));
+            builder.RegisterType(typeof(TestWorkshopEntities));
 
             builder.RegisterApiControllers(typeof(IoCConfig).Assembly);
 

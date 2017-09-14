@@ -18,30 +18,37 @@ namespace WebApplication.Controllers
         private readonly ICommandHandler<TriageBugCommand> _triageCommandHandler;
         private readonly ICommandHandler<AutoTriageBugCommand> _autoTriageCommandHandler;
         private readonly ICommandHandler<ResolveBugCommand> _resoleBugCommandHandler;
+        private readonly ICommandHandler<AssignUserToBugCommand> _assignUserCommandHandler;
+        private readonly TestWorkshopEntities _readModel;
 
         public BugController(ICommandHandler<CreateBugCommand> createBugCommandHandler,
             ICommandHandler<CloseBugCommand> closeBugCommandHandler,
             ICommandHandler<TriageBugCommand> triageCommandHandler,
             ICommandHandler<AutoTriageBugCommand> autoTriageCommandHandler,
-            ICommandHandler<ResolveBugCommand> resoleBugCommandHandler)
+            ICommandHandler<ResolveBugCommand> resoleBugCommandHandler,
+            ICommandHandler<AssignUserToBugCommand> assignUserCommandHandler,
+            TestWorkshopEntities readModel)
         {
             _createBugCommandHandler = createBugCommandHandler;
             _closeBugCommandHandler = closeBugCommandHandler;
             _triageCommandHandler = triageCommandHandler;
             _autoTriageCommandHandler = autoTriageCommandHandler;
             _resoleBugCommandHandler = resoleBugCommandHandler;
+            _assignUserCommandHandler = assignUserCommandHandler;
+            _readModel = readModel;
         }
 
         [HttpGet]
         [Route("bugs")]
-        public List<BugDTO> Search([FromUri]BugSearchCriteria bugSearchCriteria)
+        public IQueryable<BugDTO> Search([FromUri]BugSearchCriteria bugSearchCriteria)
         {
-            return new TestWorkshopEntities().Bugs
+            return _readModel.Bugs
                 .WhereIf(bugSearchCriteria?.Id != null, b => b.Id == bugSearchCriteria.Id.Value)
                 .WhereIf(bugSearchCriteria?.Title != null, b => b.Title.Contains(bugSearchCriteria.Title))
                 .WhereIf(bugSearchCriteria?.Severity!= null, b => b.Severity_Value == bugSearchCriteria.Severity.Value)
                 .WhereIf(bugSearchCriteria?.Priority != null, b => b.Severity_Value == bugSearchCriteria.Priority.Value)
                 .WhereIf(bugSearchCriteria?.Status != null, b => b.Status_Value == bugSearchCriteria.Status)
+                .WhereIf(bugSearchCriteria?.User != null, b => b.Users.Id == bugSearchCriteria.User)
                 .Select(bug => new BugDTO
                 {
                         Id = bug.Id,
@@ -49,8 +56,9 @@ namespace WebApplication.Controllers
                         Description = bug.Description,
                         Priority = bug.Priority_Value,
                         Severity = bug.Severity_Value,
-                        Status = bug.Status_Value
-                    }).ToList();
+                        Status = bug.Status_Value,
+                        AssignedUser = bug.AssignedUser_Id
+                    });
                 }
 
         [HttpPost]
@@ -96,6 +104,14 @@ namespace WebApplication.Controllers
         {
             var command = new CloseBugCommand{Id = bugId, Reason = reason};
             _closeBugCommandHandler.Handle(command);
+        }
+
+        [HttpPost]
+        [Route("bugs/{bugId}/AssignUser")]
+        public void AssignUserToBug(Guid bugId, Guid userId)
+        {
+            var command = new AssignUserToBugCommand{BugId = bugId, UserId = userId};
+            _assignUserCommandHandler.Handle(command);
         }
     }
 }

@@ -12,18 +12,19 @@ namespace DataAccess.ReadModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Bugs
+    public partial class Users
     {
-        public System.Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Status_Value { get; set; }
-        public int Severity_Value { get; set; }
-        public int Priority_Value { get; set; }
-        public System.DateTime CreatedDateTime { get; set; }
-        public System.DateTime LastEditionDateTime { get; set; }
-        public Nullable<System.Guid> AssignedUser_Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Users()
+        {
+            this.Bugs = new HashSet<Bugs>();
+        }
     
-        public virtual Users Users { get; set; }
+        public System.Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Role { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Bugs> Bugs { get; set; }
     }
 }

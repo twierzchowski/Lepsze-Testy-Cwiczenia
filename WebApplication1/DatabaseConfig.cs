@@ -11,7 +11,6 @@ namespace WebApplication
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             using (var dbContext = new BugManagementContext(connectionString))
-
             {
                 Database.SetInitializer(new BugsDbInitializer());
                 dbContext.Database.Initialize(true);

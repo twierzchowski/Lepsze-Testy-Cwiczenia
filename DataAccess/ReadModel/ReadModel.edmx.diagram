@@ -7,6 +7,8 @@
       <Diagram DiagramId="33a0a919174b4e5eba8a9daf9985a25b" Name="Diagram1">
         <EntityTypeShape EntityType="TestWorkshopModel.BugHistories" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestWorkshopModel.Bugs" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestWorkshopModel.Users" Width="1.5" PointX="0.75" PointY="3.375" />
+        <AssociationConnector Association="TestWorkshopModel.FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -24,10 +24,38 @@
           <Property Name="Severity_Value" Type="int" Nullable="false" />
           <Property Name="Priority_Value" Type="int" Nullable="false" />
           <Property Name="Status_Value" Type="nvarchar(max)" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="LastEditionDateTime" Type="datetime" Nullable="false" />
+          <Property Name="AssignedUser_Id" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Role" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Bugs" Type="Self.Bugs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bugs">
+              <PropertyRef Name="AssignedUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TestWorkshopModelStoreContainer">
           <EntitySet Name="BugHistories" EntityType="Self.BugHistories" Schema="BugManagement" store:Type="Tables" />
           <EntitySet Name="Bugs" EntityType="Self.Bugs" Schema="BugManagement" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="BugManagement" store:Type="Tables" />
+          <AssociationSet Name="FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id" Association="Self.FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Bugs" EntitySet="Bugs" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -52,11 +80,41 @@
           <Property Name="Status_Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Severity_Value" Type="Int32" Nullable="false" />
           <Property Name="Priority_Value" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastEditionDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AssignedUser_Id" Type="Guid" />
+          <NavigationProperty Name="Users" Relationship="TestWorkshopModel.FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id" FromRole="Bugs" ToRole="Users" />
         </EntityType>
         <EntityContainer Name="TestWorkshopEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BugHistories" EntityType="Self.BugHistories" />
           <EntitySet Name="Bugs" EntityType="Self.Bugs" />
+          <EntitySet Name="Users" EntityType="TestWorkshopModel.Users" />
+          <AssociationSet Name="FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id" Association="TestWorkshopModel.FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Bugs" EntitySet="Bugs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bugs" Relationship="TestWorkshopModel.FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id" FromRole="Users" ToRole="Bugs" />
+        </EntityType>
+        <Association Name="FK_BugManagement_Bugs_BugManagement_Users_AssignedUser_Id">
+          <End Type="TestWorkshopModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="TestWorkshopModel.Bugs" Role="Bugs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bugs">
+              <PropertyRef Name="AssignedUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -76,12 +134,24 @@
           <EntitySetMapping Name="Bugs">
             <EntityTypeMapping TypeName="TestWorkshopModel.Bugs">
               <MappingFragment StoreEntitySet="Bugs">
+                <ScalarProperty Name="AssignedUser_Id" ColumnName="AssignedUser_Id" />
+                <ScalarProperty Name="LastEditionDateTime" ColumnName="LastEditionDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="Priority_Value" ColumnName="Priority_Value" />
                 <ScalarProperty Name="Severity_Value" ColumnName="Severity_Value" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status_Value" ColumnName="Status_Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TestWorkshopModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

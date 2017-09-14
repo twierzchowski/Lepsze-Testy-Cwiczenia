@@ -255,6 +255,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BugController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserDto.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DatabaseConfig.cs" />
     <Compile Include="IoCConfig.cs" />
     <Compile Include="Global.asax.cs">

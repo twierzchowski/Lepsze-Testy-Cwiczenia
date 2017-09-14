@@ -57,7 +57,10 @@
     <Compile Include="DbBugRepository.cs" />
     <Compile Include="DTOs\BugSearchCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProritySeed.cs" />
+    <Compile Include="ReadModel\Users.cs">
+      <DependentUpon>ReadModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserSeed.cs" />
     <Compile Include="ReadModel\BugHistories.cs">
       <DependentUpon>ReadModel.tt</DependentUpon>
     </Compile>
@@ -79,7 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="SeveritySeed.cs" />
+    <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -27,5 +27,6 @@ namespace DataAccess.ReadModel
     
         public virtual DbSet<BugHistories> BugHistories { get; set; }
         public virtual DbSet<Bugs> Bugs { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }

@@ -6,9 +6,10 @@ namespace DataAccess
     {
         protected override void Seed(BugManagementContext bugManagementContext)
         {
-            ProritySeed.Seed(bugManagementContext);
-            SeveritySeed.Seed(bugManagementContext);
+            UserSeed.Seed(bugManagementContext);
+            bugManagementContext.SaveChanges();
             BugSeed.Seed(bugManagementContext);
+            bugManagementContext.SaveChanges();
         }
     }
 }

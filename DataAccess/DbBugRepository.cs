@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Linq;
 using Domain;
 
 namespace DataAccess
 {
     public class DbBugRepository : IBugRepository
     {
-        private readonly BugManagementContext _bugManagementContext;
+        private readonly BugManagementContext _context;
 
-        public DbBugRepository(BugManagementContext bugManagementContext)
+        public DbBugRepository(BugManagementContext context)
         {
-            _bugManagementContext = bugManagementContext;
+            _context = context;
         }
-        public Bug GetById(Guid bugId)
+        public Bug GetById(Guid id)
         {
-            return _bugManagementContext.Bugs
-                .SingleOrDefault(b => b.Id == bugId);
+            return _context.Bugs.Find(id);
         }
 
         public void Store(Bug bug)
         {
-            _bugManagementContext.Bugs.Add(bug);
+            _context.Bugs.Add(bug);
         }
     }
 }

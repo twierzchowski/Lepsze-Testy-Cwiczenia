@@ -9,5 +9,6 @@ namespace DataAccess.DTOs
         public int? Severity { get; set; }
         public int? Priority { get; set; }
         public string Status { get; set; }
+        public Guid? User { get; set; }
     }
 }

@@ -48,10 +48,24 @@ namespace Tests
             //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
             //When
             bug.Resolve();
             //Then
             bug.Status.ShouldBe(Status.Done);
+        }
+
+        [Test]
+        public void Bug_WhenResolveWithoutAssignedUser_ThenExceptionIsThrown()
+        {
+            //Given
+            Bug bug = new Bug();
+            bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
+            //When
+            Action action = () => bug.Resolve();
+            //Then
+            Should.Throw<DomainException>(action);
         }
 
         [Test]
@@ -74,6 +88,7 @@ namespace Tests
             //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
             bug.Resolve();
             //When
             bug.Renew();
@@ -86,11 +101,26 @@ namespace Tests
             //Given
             var bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
             bug.Resolve();
             //When
             bug.Close("reason");
             //Then
             bug.IsActive().ShouldBe(false);
+        }
+
+        [Test]
+        public void Bug_WhenClosing_ThenNoUserIsAssigned()
+        {
+            //Given
+            var bug = new Bug();
+            bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
+            bug.Resolve();
+            //When
+            bug.Close("reason");
+            //Then
+            bug.AssignedUser.ShouldBeNull();
         }
 
         [Test]
@@ -128,6 +158,7 @@ namespace Tests
         {
             var bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
             bug.Resolve();
             bug.Close("reason");
             return bug;
