@@ -11,7 +11,7 @@ namespace Tests
     public class TriageServiceContractTests
     {
         [Test]
-        public void TriageService_WhenSeverityCalled_ValidValueIsReturned()
+        public void TriageService_WhenSeverityCalled_ThenValidValueIsReturned()
         {
             //Given
             var url = "http://localhost:55086/api/triagebug/severity";
@@ -26,7 +26,7 @@ namespace Tests
         }
 
         [Test]
-        public void TriageService_WhenCalledWithMissingTitle_ExceptionIsThrown()
+        public void TriageService_WhenCalledWithMissingTitle_ThenExceptionIsThrown()
         {
             //Given
             var url = "http://localhost:55086/api/triagebug/severity";
@@ -43,7 +43,7 @@ namespace Tests
         }
 
         [Test]
-        public void TriageService_WhenPriorityCalled_ValidValueIsReturned()
+        public void TriageService_WhenPriorityCalled_ThenValidValueIsReturned()
         {
             //Given
             var url = "http://localhost:55086/api/triagebug/priority";
