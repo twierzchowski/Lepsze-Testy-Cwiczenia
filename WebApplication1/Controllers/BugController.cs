@@ -62,7 +62,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        [Route("Bugs/{bugId}/triage")]
+        [Route("bugs/{bugId}/triage")]
         public void Triage(Guid bugId, int priority, int severity)
         {
             var command = new TriageBugCommand
@@ -83,7 +83,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        [Route("Bugs/{bugId}/resolve")]
+        [Route("bugs/{bugId}/resolve")]
         public void Resolve(Guid bugId)
         {
             var command = new ResolveBugCommand{Id = bugId};
