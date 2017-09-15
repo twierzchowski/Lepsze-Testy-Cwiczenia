@@ -22,7 +22,7 @@ namespace TriageService.Controllers
 
         [HttpGet]
         [Route("priority")]
-        public int GetPriority(string title, string desciption)
+        public int GetPriority(string title, string description)
         {
             switch (DateTime.Now.Second %6)
             {

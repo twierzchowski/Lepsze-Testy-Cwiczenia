@@ -267,7 +267,6 @@
     <Content Include="Areas\HelpPage\Views\SwaggerPage\Api.cshtml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\_Home.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />

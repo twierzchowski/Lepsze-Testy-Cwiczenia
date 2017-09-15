@@ -14,47 +14,44 @@ namespace Tests
         public void TriageService_WhenSeverityCalled_ThenValidValueIsReturned()
         {
             //Given
-            var url = "http://localhost:55086/api/triagebug/severity";
+            //Given
             var bugTitle = "test";
+            var bugDescirption = "test";
+            var url = $"http://workshopaa.azurewebsites.net/api/severity?title={bugTitle}&description={bugDescirption}";
             //When
             var client = new HttpClient();
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(
-                new JavaScriptSerializer().Serialize(bugTitle), Encoding.UTF8, "application/json")).Result;
+            HttpResponseMessage response = client.GetAsync(url).Result;
             //Then
             var expectedSeverity = "3";
             response.Content.ReadAsStringAsync().Result.ShouldBe(expectedSeverity);
         }
 
         [Test]
-        public void TriageService_WhenCalledWithMissingTitle_ThenExceptionIsThrown()
+        public void TriageService_WhenCalledWithMissingTitle_ThenStatusCodeIsNotSucess()
         {
             //Given
-            var url = "http://localhost:55086/api/triagebug/severity";
             var bugTitle = string.Empty;
+            var bugDescirption = string.Empty;
+            var url = $"http://workshopaa.azurewebsites.net/api/severity?title={bugTitle}&description={bugDescirption}";
             //When
             var client = new HttpClient();
-            Action action = () =>
-            {
-                client.PostAsync(url, new StringContent(
-                    new JavaScriptSerializer().Serialize(bugTitle), Encoding.UTF8, "application/json")).Wait();
-            };
             //Then
-            Should.Throw<Exception>(action);
+            client.GetAsync(url).Result.IsSuccessStatusCode.ShouldBeFalse();
         }
 
         [Test]
         public void TriageService_WhenPriorityCalled_ThenValidValueIsReturned()
         {
             //Given
-            var url = "http://localhost:55086/api/triagebug/priority";
             var bugTitle = "test";
-            var urlWithParam = $"{url}?title={bugTitle}";
+            var bugDescirption = "test";
+            var url = $"http://workshopaa.azurewebsites.net/api/priority?title={bugTitle}&description={bugDescirption}";
             //When
             var client = new HttpClient();
-            HttpResponseMessage response = client.GetAsync(urlWithParam).Result;
+            HttpResponseMessage response = client.GetAsync(url).Result;
             //Then
-            var expectedPriority = "1";
-            response.Content.ReadAsStringAsync().Result.ShouldBe(expectedPriority);
+            var expectedPriority = 1;
+            Int32.Parse(response.Content.ReadAsStringAsync().Result).ShouldBe(expectedPriority);
         }
     }
 }
