@@ -2,7 +2,7 @@
 
 namespace DataAccess.DTOs
 {
-    public class BugDTO
+    public class BugDto
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

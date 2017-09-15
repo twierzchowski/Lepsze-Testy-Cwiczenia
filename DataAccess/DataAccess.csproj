@@ -52,7 +52,7 @@
     <Compile Include="BugHistoryRepository.cs" />
     <Compile Include="BugsDbInitializer.cs" />
     <Compile Include="BugSeed.cs" />
-    <Compile Include="DTOs\BugDTO.cs" />
+    <Compile Include="DTOs\BugDto.cs" />
     <Compile Include="BugManagementContext.cs" />
     <Compile Include="DbBugRepository.cs" />
     <Compile Include="DTOs\BugSearchCriteria.cs" />

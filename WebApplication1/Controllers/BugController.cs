@@ -40,7 +40,7 @@ namespace WebApplication.Controllers
 
         [HttpGet]
         [Route("bugs")]
-        public IQueryable<BugDTO> Search([FromUri]BugSearchCriteria bugSearchCriteria)
+        public IQueryable<BugDto> Search([FromUri]BugSearchCriteria bugSearchCriteria)
         {
             return _readModel.Bugs
                 .WhereIf(bugSearchCriteria?.Id != null, b => b.Id == bugSearchCriteria.Id.Value)
@@ -49,7 +49,7 @@ namespace WebApplication.Controllers
                 .WhereIf(bugSearchCriteria?.Priority != null, b => b.Severity_Value == bugSearchCriteria.Priority.Value)
                 .WhereIf(bugSearchCriteria?.Status != null, b => b.Status_Value == bugSearchCriteria.Status)
                 .WhereIf(bugSearchCriteria?.User != null, b => b.Users.Id == bugSearchCriteria.User)
-                .Select(bug => new BugDTO
+                .Select(bug => new BugDto
                 {
                         Id = bug.Id,
                         Title = bug.Title,

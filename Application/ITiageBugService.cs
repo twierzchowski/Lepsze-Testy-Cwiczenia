@@ -2,7 +2,7 @@
 {
     public interface ITiageBugService
     {
-        int GetSeverity(string description);
-        int GetPriority(string description);
+        int GetSeverity(string title, string description);
+        int GetPriority(string title, string description);
     }
 }

@@ -4,41 +4,39 @@ using System.Web.Http;
 
 namespace TriageService.Controllers
 {
-    [RoutePrefix("api/triagebug")]
+    [RoutePrefix("api")]
     public class TriageBugController : ApiController
     {
-        [HttpPost]
-        [Route("Severity")]
-        public int GetSeverity([FromBody]string title)
+        [HttpGet]
+        [Route("severity")]
+        public int GetSeverity(string title, string description)
         {
-            if (title.Length > 10)
+            Thread.Sleep(new Random().Next(500));
+            if (title.Length > 8)
             {
-                Thread.Sleep(new Random().Next(10000));
+                Thread.Sleep(new Random().Next(5000));
                 return 2;
             }
             return 3;
         }
 
         [HttpGet]
-        [Route("Priority")]
-        public int GetPriority([FromBody]string title)
+        [Route("priority")]
+        public int GetPriority(string title, string desciption)
         {
-            switch (DateTime.Now.Second %3) //%6?
+            switch (DateTime.Now.Second %6)
             {
-                case 0:
-                    return 1;
                 case 1:
-                    return 2;
+                    return 1;
                 case 2:
+                    return 2;
+                case 0:
                     throw new Exception("Unknown exception");
+                case 6:
+                    return 6;
                 default:
                     return 3;
             }
         }
-    }
-
-    public class BugDTO
-    {
-        public string Title { get; set; }
     }
 }

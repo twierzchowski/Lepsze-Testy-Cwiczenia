@@ -10,45 +10,36 @@ namespace Application
         {
             _serviceProxy = serviceProxy;
         }
-        public int GetSeverity(string description)
+        public int GetSeverity(string title, string description)
         {
-            return _serviceProxy.GetSeverity(description);
+            return _serviceProxy.GetSeverity(title, description);
         }
 
-        public int GetPriority(string description)
+        public int GetPriority(string title, string description)
         {
-            return _serviceProxy.GetPriority(description);
+            return _serviceProxy.GetPriority(title, description);
         }
     }
 
     public class TriageBugServiceProxy
     {
-        public int GetSeverity(string title)
+        public int GetSeverity(string title, string description)
         {
             using (var client = new HttpClient())
             {
-                const string url = "http://localhost:55086/api/triagebug/severity";
-
-                HttpResponseMessage response = client.PostAsJsonAsync(url, title).Result;
-                response.EnsureSuccessStatusCode();
-
-                var severity = response.Content.ReadAsAsync<int>().Result;
-                return severity;
+                string url = "http://workshopaa.azurewebsites.net/api/severity";
+                var urlWithParam = $"{url}?title={title}&description={description}";
+                return int.Parse(client.GetStringAsync(urlWithParam).Result);
             }
         }
 
-        public int GetPriority(string title)
+        public int GetPriority(string title, string description)
         {
             using (var client = new HttpClient())
             {
-                const string url = "http://localhost:55086/api/triagebug/priority";
-                var urlWithParam = $"{url}?title={title}";
-
-                HttpResponseMessage response = client.GetAsync(urlWithParam).Result;
-                response.EnsureSuccessStatusCode();
-
-                var priority = response.Content.ReadAsAsync<int>().Result;
-                return priority;
+                string url = "http://workshopaa.azurewebsites.net/api/priority";
+                var urlWithParam = $"{url}?title={title}&description={description}";
+                return int.Parse(client.GetStringAsync(urlWithParam).Result);
             }
         }
     }
