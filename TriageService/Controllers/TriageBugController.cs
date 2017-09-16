@@ -9,15 +9,23 @@ namespace TriageService.Controllers
     {
         [HttpGet]
         [Route("severity")]
-        public string GetSeverity(string title, string description)
+        public int GetSeverity(string title, string description)
         {
             Thread.Sleep(new Random().Next(500));
-            if (title.Length > 8)
+            if (description.Contains("fatal"))
             {
-                Thread.Sleep(new Random().Next(5000));
-                return "High";
+                // aaa! fatal bug
+                return -1;
             }
-            return "Medium";
+            if (title.Length > 8 || description.Length > 100)
+            {
+                // this is very severe bug since it has long title/description 
+                Thread.Sleep(new Random().Next(5000));
+                return new Random().Next(99);
+            }
+            
+            // otherwise normal bug
+            return new Random().Next(100,250);
         }
 
         [HttpGet]

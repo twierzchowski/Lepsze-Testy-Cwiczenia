@@ -1,4 +1,5 @@
-﻿using Application.Commands;
+﻿using System;
+using Application.Commands;
 using Domain;
 
 namespace Application.UseCases
@@ -6,10 +7,10 @@ namespace Application.UseCases
     public class AutoTriageUseCase : ICommandHandler<AutoTriageBugCommand>
     {
         private readonly IBugRepository _bugRepository;
-        private readonly ITiageBugService _triageBugService;
+        private readonly ITriageBugService _triageBugService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AutoTriageUseCase(IBugRepository bugRepository, ITiageBugService triageBugService, IUnitOfWork unitOfWork)
+        public AutoTriageUseCase(IBugRepository bugRepository, ITriageBugService triageBugService, IUnitOfWork unitOfWork)
         {
             _bugRepository = bugRepository;
             _triageBugService = triageBugService;
@@ -18,43 +19,44 @@ namespace Application.UseCases
         public void Handle(AutoTriageBugCommand command)
         {
             var bug = _bugRepository.GetById(command.Id);
-            var severity = _triageBugService.GetSeverity(bug.Title, bug.Description);
-            var priority = _triageBugService.GetPriority(bug.Title, bug.Description);
-            Severity S;
-            Priority P;
-            switch (severity)
-            {
-                case 1:
-                    S = Severity.High;
-                    break;
-                case 2:
-                    S = Severity.Medium;
-                    break;
-                case 3:
-                    S = Severity.Low;
-                    break;
-                default:
-                    S = Severity.Medium;
-                    break;
-            }
+            var severityFromExternalService = _triageBugService.GetSeverity(bug.Title, bug.Description);
+            var priorityFromExternalService = _triageBugService.GetPriority(bug.Title, bug.Description);
 
-            switch (priority)
+            Severity severity = MapSeverityFromExternalService(severityFromExternalService);
+            Priority priority = MapPriorityFromExternalService(priorityFromExternalService);
+            
+            bug.Triage(severity, priority);
+            _unitOfWork.Save();
+        }
+
+        private Priority MapPriorityFromExternalService(int priorityFromExternalService)
+        {
+            switch (priorityFromExternalService)
             {
                 case 1:
-                    P = Priority.High;
-                    break;
+                    return Priority.High;
                 case 2:
-                    P = Priority.Medium;
-                    break;
+                    return Priority.Medium;
                 case 3:
-                    P = Priority.Low;
-                    break;
+                    return Priority.Low;
                 default:
-                    P = Priority.Medium;
-                    break;
+                    throw new Exception("Invalid priority value");
             }
-            bug.Triage(S, P);
-            _unitOfWork.Save();
+        }
+
+        private Severity MapSeverityFromExternalService(int severityFromExternalService)
+        {
+            switch (severityFromExternalService)
+            {
+                case 1:
+                    return Severity.High;
+                case 2:
+                    return Severity.Medium;
+                case 3:
+                    return Severity.Low;
+                default:
+                    throw new Exception("Invalid severity value");
+            }
         }
     }
 }

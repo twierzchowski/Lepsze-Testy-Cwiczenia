@@ -45,7 +45,7 @@ namespace WebApplication
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
-            builder.RegisterType<TiageBugService>().As<ITiageBugService>();
+            builder.RegisterType<TriageBugService>().As<ITriageBugService>();
 
             builder.RegisterType(typeof(TestWorkshopEntities));
 

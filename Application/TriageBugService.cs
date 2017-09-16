@@ -2,7 +2,7 @@
 
 namespace Application
 {
-    public class TiageBugService : ITiageBugService
+    public class TriageBugService : ITriageBugService
     {
         public int GetSeverity(string title, string description)
         {
