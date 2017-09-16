@@ -1,5 +1,4 @@
 using DataAccess;
-using EnsureThat;
 
 namespace Application
 {
@@ -9,8 +8,6 @@ namespace Application
 
         public UnitOfWork(BugManagementContext context)
         {
-            Ensure.That(context).IsNotNull();
-
             _context = context;
         }
         public void Save()

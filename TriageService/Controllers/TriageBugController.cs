@@ -9,15 +9,15 @@ namespace TriageService.Controllers
     {
         [HttpGet]
         [Route("severity")]
-        public int GetSeverity(string title, string description)
+        public string GetSeverity(string title, string description)
         {
             Thread.Sleep(new Random().Next(500));
             if (title.Length > 8)
             {
                 Thread.Sleep(new Random().Next(5000));
-                return 2;
+                return "High";
             }
-            return 3;
+            return "Medium";
         }
 
         [HttpGet]

@@ -31,6 +31,8 @@ namespace Domain
 
         public void AssignUser(User user)
         {
+            if (user == null)
+                throw new DomainException("Cannot assign null user");
             AssignedUser = user;
         }
 
