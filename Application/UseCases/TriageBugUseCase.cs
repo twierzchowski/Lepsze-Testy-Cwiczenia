@@ -1,4 +1,5 @@
-﻿using Application.Commands;
+﻿using System;
+using Application.Commands;
 using Domain;
 
 namespace Application.UseCases
@@ -16,6 +17,9 @@ namespace Application.UseCases
         public void Handle(TriageBugCommand command)
         {
             var bug = _bugRepository.GetById(command.Id);
+            if (bug == null)
+                throw new Exception($"bug with Id ='{command.Id}' not found");
+
             bug.Triage(command.Severity, command.Priority);
             _unitOfWork.Save();
         }

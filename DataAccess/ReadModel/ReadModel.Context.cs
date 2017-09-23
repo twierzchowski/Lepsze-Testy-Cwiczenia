@@ -9,16 +9,17 @@
 
 namespace DataAccess.ReadModel
 {
-    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
     public partial class TestWorkshopEntities : DbContext
     {
-        public TestWorkshopEntities()
-            : base("name=TestWorkshopEntities")
-        {
-        }
+        public TestWorkshopEntities(string connectionString)
+            : base("metadata = res://*/ReadModel.ReadModel.csdl|res://*/ReadModel.ReadModel.ssdl|res://*/ReadModel.ReadModel.msl;"
+                  +"provider=System.Data.SqlClient;" 
+                  +$"provider connection string=\"{connectionString};"
+                  +"App=EntityFramework\";")
+        { }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

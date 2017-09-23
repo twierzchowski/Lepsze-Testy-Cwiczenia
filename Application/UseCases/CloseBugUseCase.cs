@@ -1,4 +1,5 @@
-﻿using Application.Commands;
+﻿using System;
+using Application.Commands;
 using Domain;
 
 namespace Application.UseCases
@@ -19,6 +20,9 @@ namespace Application.UseCases
         public void Handle(CloseBugCommand command)
         {
             var bug = _bugBugRepository.GetById(command.Id);
+            if (bug == null)
+                throw new Exception($"bug with Id ='{command.Id}' not found");
+
             var history = bug.Close(command.Reason);
             _bugHistoryRepository.Store(history);
             _unitOfWork.Save();

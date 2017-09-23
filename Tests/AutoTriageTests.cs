@@ -1,5 +1,4 @@
-﻿using System;
-using Application;
+﻿using Application;
 using Application.Commands;
 using Application.UseCases;
 using Domain;
@@ -22,7 +21,7 @@ namespace Tests
             var bugRepository = bugRepositoryMock.Object;
 
             var triageBugServiceMock = new Mock<ITriageBugService>();
-            triageBugServiceMock.Setup(mock => mock.GetSeverity(bug.Title, bug.Description)).Returns(2);
+            triageBugServiceMock.Setup(mock => mock.GetSeverity(bug.Title, bug.Description)).Returns(149);
             triageBugServiceMock.Setup(mock => mock.GetPriority(bug.Title, bug.Description)).Returns(1);
             var triageBugService = triageBugServiceMock.Object;
 
@@ -63,7 +62,7 @@ namespace Tests
     {
         public int GetSeverity(string title, string description)
         {
-            return 2;
+            return 149;
         }
 
         public int GetPriority(string title, string description)

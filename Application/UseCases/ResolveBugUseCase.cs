@@ -1,4 +1,5 @@
-﻿using Application.Commands;
+﻿using System;
+using Application.Commands;
 using Domain;
 
 namespace Application.UseCases
@@ -17,6 +18,8 @@ namespace Application.UseCases
         public void Handle(ResolveBugCommand command)
         {
             var bug = _bugRepository.GetById(command.Id);
+            if (bug == null)
+                throw new Exception($"bug with Id ='{command.Id}' not found");
             bug.Resolve();
             _unitOfWork.Save();
         }

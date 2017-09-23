@@ -1,4 +1,5 @@
-﻿using Application.Commands;
+﻿using System;
+using Application.Commands;
 using Domain;
 
 namespace Application.UseCases
@@ -18,7 +19,11 @@ namespace Application.UseCases
         public void Handle(AssignUserToBugCommand command)
         {
             var user = _userRepository.GetUser(command.UserId);
+            if (user == null)
+                throw new Exception($"User with Id ='{command.UserId}' not found");
             var bug = _bugRepository.GetById(command.BugId);
+            if (bug == null)
+                throw new Exception($"bug with Id ='{command.BugId}' not found");
             bug.AssignUser(user);
             _unitOfWork.Save();
         }

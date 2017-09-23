@@ -61,7 +61,6 @@ namespace Tests
             //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
-            bug.AssignUser(new User("testuser", UserRole.Dev));
             //When
             Action action = () => bug.Resolve();
             //Then
