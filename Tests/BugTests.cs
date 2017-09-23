@@ -1,166 +1,90 @@
 ﻿using System;
+using System.Configuration;
+using DataAccess.ReadModel;
 using Domain;
-using Infrastructure;
 using NUnit.Framework;
-using Shouldly;
+using WebApplication.Controllers;
 
 namespace Tests
 {
     [TestFixture]
-    public class BugTests
+    public class Tests
     {
         [Test]
-        public void Bug_WhenCreated_ThenHaveMediumPriorityAndSeverity()
+        public void NewBug()
         {
-            //Given
             var bug = new Bug();
-            //Then
-            bug.Priority.ShouldBe(Priority.Medium);
-            bug.Severity.ShouldBe(Severity.Medium);
+            if (bug.Priority != Priority.Medium)
+                throw new Exception();
         }
 
         [Test]
-        public void Bug_WhenTriaged_ThenStatusIsTodo()
+        public void TriagedStatusIsTodo()
         {
-            //Given
-            Bug bug = new Bug();
-            //When
-            bug.Triage(Severity.High, Priority.High);
-            //Then
-            bug.Status.ShouldBe(Status.Todo);
-        }
-
-        [Test]
-        public void Bug_WhenTriageInWrongStatus_ThenExceptionIsThrown()
-        {
-            //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
-            //When
-            Action action = () => bug.Triage(Severity.High, Priority.High);
-            //Then
-            Should.Throw<DomainException>(action);
+            Assert.True(bug.Status == Status.Todo);
         }
 
         [Test]
-        public void Bug_WhenResolve_ThenStausIsDone()
+        public void ResolvedStausIsDone()
         {
-            //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
-            bug.AssignUser(new User("testuser", UserRole.Dev));
-            //When
-            bug.Resolve();
-            //Then
-            bug.Status.ShouldBe(Status.Done);
+            if (bug.AssignedUser != null)
+            {
+                bug.Resolve();
+                Assert.True(bug.Status == Status.Done);
+                bug.Close("fixed in build 1.23");
+                //Then
+                Assert.True(bug.AssignedUser == null);
+            }
         }
 
         [Test]
-        public void Bug_WhenResolveWithoutAssignedUser_ThenExceptionIsThrown()
+        public void Bug_WhenRenewStatusIsNew()
         {
-            //Given
-            Bug bug = new Bug();
-            bug.Triage(Severity.High, Priority.High);
-            //When
-            Action action = () => bug.Resolve();
-            //Then
-            Should.Throw<DomainException>(action);
-        }
-
-        [Test]
-        public void Bug_WhenResolveOnWeekend_ThenExceptionIsThrown()
-        {
-            //Given
-            Bug bug = new Bug();
-            bug.Triage(Severity.High, Priority.High);
-            var sundayDate = new DateTime(2017, 10, 1);
-            TimeProvider.Current = new TestTimeProvider(sundayDate);
-            //When
-            Action action = () => bug.Resolve();
-            //Then
-            Should.Throw<DomainException>(action);
-        }
-
-        [Test]
-        public void Bug_WhenRenew_ThenStatusIsNew()
-        {
-            //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
             bug.AssignUser(new User("testuser", UserRole.Dev));
             bug.Resolve();
-            //When
             bug.Renew();
-            //Then
-            bug.Status.ShouldBe(Status.New);
-        }
-        [Test]
-        public void Bug_WhenClosingWithReason_ThenBugIsClosed()
-        {
-            //Given
-            var bug = new Bug();
-            bug.Triage(Severity.High, Priority.High);
-            bug.AssignUser(new User("testuser", UserRole.Dev));
-            bug.Resolve();
-            //When
-            bug.Close("reason");
-            //Then
-            bug.IsActive().ShouldBe(false);
-        }
-
-        [Test]
-        public void Bug_WhenClosing_ThenNoUserIsAssigned()
-        {
-            //Given
-            var bug = new Bug();
-            bug.Triage(Severity.High, Priority.High);
-            bug.AssignUser(new User("testuser", UserRole.Dev));
-            bug.Resolve();
-            //When
-            bug.Close("reason");
-            //Then
-            bug.AssignedUser.ShouldBeNull();
+            Assert.True(bug.Status == Status.Done);
         }
 
         [Test]
         public void Bug_WhenClosingAlreadyClosed_ThenExceptionIsThrown()
         {
-            //Given
-            Bug bug = CreateClosedBug();
-            //When
-            Action action = () => bug.Close("reason");
-            //Then
-            Should.Throw<DomainException>(action);
-        }
-
-        [Test]
-        public void Bug_WhenCheckingIsActive_ThenCorrectValueIsReturned()
-        {
-            //Given
             Bug bug = new Bug();
-            //Then
-            bug.IsActive().ShouldBe(true);
-        }
-
-        [Test]
-        public void Bug_WhenClosingNewBug_ThenExceptionIsThrown()
-        {
-            //Given
-            Bug bug = new Bug();
-            //When
-            Action action = () => bug.Close("reason");
-            //Then
-            Should.Throw<DomainException>(action);
-        }
-
-        private static Bug CreateClosedBug()
-        {
-            var bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
             bug.AssignUser(new User("testuser", UserRole.Dev));
             bug.Resolve();
             bug.Close("reason");
-            return bug;
+            try
+            {
+                bug.Close("reason");
+                throw new Exception();
+            }
+            catch (DomainException e)
+            {
+            }
+
+        }
+
+        [Test]
+        public void GetUsers()
+        {
+            var UsersController = new UsersController(new TestWorkshopEntities(ConfigurationManager.ConnectionStrings["TestConnection"].ConnectionString));
+            UsersController.PostUsers("Test", 1);
+            var users = UsersController.GetUsers();
+            foreach (var user in users)
+            {
+                if (user.Name == "Test" && user.Role == "1")
+                {
+                    return;
+                }
+            }
+            Assert.Fail("user not found");
         }
     }
 }
