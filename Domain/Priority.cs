@@ -7,6 +7,8 @@
         { }
         public Priority(int priority)
         {
+            if (priority < 1 || priority > 3)
+                throw new DomainException($"{priority} is invalid value of priority");
             Value = priority;
         }
         public static Priority Low = new Priority(3);
