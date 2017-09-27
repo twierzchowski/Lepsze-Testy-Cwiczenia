@@ -12,6 +12,8 @@ namespace Domain
         }
         public Severity(int severity)
         {
+            if (severity <1 || severity>3)
+                throw new DomainException($"{severity} is invalid value of severity");
             Value = severity;
         }
         public static Severity Low = new Severity(3);
