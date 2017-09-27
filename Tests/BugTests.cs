@@ -49,6 +49,8 @@ namespace Tests
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
             bug.AssignUser(new User("testuser", UserRole.Dev));
+            var mondayDate = new DateTime(2017, 10, 2);
+            TimeProvider.Current = new TestTimeProvider(mondayDate);
             //When
             bug.Resolve();
             //Then
@@ -73,6 +75,7 @@ namespace Tests
             //Given
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
+            bug.AssignUser(new User("testuser", UserRole.Dev));
             var sundayDate = new DateTime(2017, 10, 1);
             TimeProvider.Current = new TestTimeProvider(sundayDate);
             //When
@@ -85,8 +88,11 @@ namespace Tests
         public void Bug_WhenRenew_ThenStatusIsNew()
         {
             //Given
+            var time = TimeProvider.Current;
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
+            var mondayDate = new DateTime(2017, 10, 2);
+            TimeProvider.Current = new TestTimeProvider(mondayDate);
             bug.AssignUser(new User("testuser", UserRole.Dev));
             bug.Resolve();
             //When
@@ -101,6 +107,8 @@ namespace Tests
             var bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
             bug.AssignUser(new User("testuser", UserRole.Dev));
+            var mondayDate = new DateTime(2017, 10, 2);
+            TimeProvider.Current = new TestTimeProvider(mondayDate);
             bug.Resolve();
             //When
             bug.Close("reason");
@@ -115,6 +123,8 @@ namespace Tests
             var bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
             bug.AssignUser(new User("testuser", UserRole.Dev));
+            var mondayDate = new DateTime(2017, 10, 2);
+            TimeProvider.Current = new TestTimeProvider(mondayDate);
             bug.Resolve();
             //When
             bug.Close("reason");
