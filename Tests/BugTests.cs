@@ -88,7 +88,6 @@ namespace Tests
         public void Bug_WhenRenew_ThenStatusIsNew()
         {
             //Given
-            var time = TimeProvider.Current;
             Bug bug = new Bug();
             bug.Triage(Severity.High, Priority.High);
             var mondayDate = new DateTime(2017, 10, 2);

@@ -54,8 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AssignUserToBugCommand.cs" />
+    <Compile Include="Commands\RenewBugCommand.cs" />
     <Compile Include="Commands\ResolveBugCommand.cs" />
     <Compile Include="UseCases\AssignUserToBugUserCase.cs" />
+    <Compile Include="UseCases\RenewBugUseCase.cs" />
     <Compile Include="UseCases\ResolveBugUseCase.cs" />
     <Compile Include="Commands\AutoTriageBugCommand.cs" />
     <Compile Include="TriageBugService.cs" />
