@@ -18,6 +18,7 @@ namespace WebApplication.Controllers
         private readonly ICommandHandler<TriageBugCommand> _triageCommandHandler;
         private readonly ICommandHandler<AutoTriageBugCommand> _autoTriageCommandHandler;
         private readonly ICommandHandler<ResolveBugCommand> _resoleBugCommandHandler;
+        private readonly ICommandHandler<RenewBugCommand> _renewBugCommandHandler;
         private readonly ICommandHandler<AssignUserToBugCommand> _assignUserCommandHandler;
         private readonly TestWorkshopEntities _readModel;
 
@@ -26,6 +27,7 @@ namespace WebApplication.Controllers
             ICommandHandler<TriageBugCommand> triageCommandHandler,
             ICommandHandler<AutoTriageBugCommand> autoTriageCommandHandler,
             ICommandHandler<ResolveBugCommand> resoleBugCommandHandler,
+            ICommandHandler<RenewBugCommand> renewBugCommandHandler,
             ICommandHandler<AssignUserToBugCommand> assignUserCommandHandler,
             TestWorkshopEntities readModel)
         {
@@ -34,6 +36,7 @@ namespace WebApplication.Controllers
             _triageCommandHandler = triageCommandHandler;
             _autoTriageCommandHandler = autoTriageCommandHandler;
             _resoleBugCommandHandler = resoleBugCommandHandler;
+            _renewBugCommandHandler = renewBugCommandHandler;
             _assignUserCommandHandler = assignUserCommandHandler;
             _readModel = readModel;
         }
@@ -96,6 +99,14 @@ namespace WebApplication.Controllers
         {
             var command = new ResolveBugCommand{Id = bugId};
             _resoleBugCommandHandler.Handle(command);
+        }
+
+        [HttpPost]
+        [Route("bugs/{bugId}/renew")]
+        public void Renew(Guid bugId)
+        {
+            var command = new RenewBugCommand { Id = bugId };
+            _renewBugCommandHandler.Handle(command);
         }
 
         [HttpPut]
