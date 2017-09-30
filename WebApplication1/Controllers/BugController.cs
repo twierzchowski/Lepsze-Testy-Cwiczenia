@@ -17,7 +17,7 @@ namespace WebApplication.Controllers
         private readonly ICommandHandler<CloseBugCommand> _closeBugCommandHandler;
         private readonly ICommandHandler<TriageBugCommand> _triageCommandHandler;
         private readonly ICommandHandler<AutoTriageBugCommand> _autoTriageCommandHandler;
-        private readonly ICommandHandler<ResolveBugCommand> _resoleBugCommandHandler;
+        private readonly ICommandHandler<ResolveBugCommand> _resolveBugCommandHandler;
         private readonly ICommandHandler<RenewBugCommand> _renewBugCommandHandler;
         private readonly ICommandHandler<AssignUserToBugCommand> _assignUserCommandHandler;
         private readonly TestWorkshopEntities _readModel;
@@ -26,7 +26,7 @@ namespace WebApplication.Controllers
             ICommandHandler<CloseBugCommand> closeBugCommandHandler,
             ICommandHandler<TriageBugCommand> triageCommandHandler,
             ICommandHandler<AutoTriageBugCommand> autoTriageCommandHandler,
-            ICommandHandler<ResolveBugCommand> resoleBugCommandHandler,
+            ICommandHandler<ResolveBugCommand> resolveBugCommandHandler,
             ICommandHandler<RenewBugCommand> renewBugCommandHandler,
             ICommandHandler<AssignUserToBugCommand> assignUserCommandHandler,
             TestWorkshopEntities readModel)
@@ -35,7 +35,7 @@ namespace WebApplication.Controllers
             _closeBugCommandHandler = closeBugCommandHandler;
             _triageCommandHandler = triageCommandHandler;
             _autoTriageCommandHandler = autoTriageCommandHandler;
-            _resoleBugCommandHandler = resoleBugCommandHandler;
+            _resolveBugCommandHandler = resolveBugCommandHandler;
             _renewBugCommandHandler = renewBugCommandHandler;
             _assignUserCommandHandler = assignUserCommandHandler;
             _readModel = readModel;
@@ -98,7 +98,7 @@ namespace WebApplication.Controllers
         public void Resolve(Guid bugId)
         {
             var command = new ResolveBugCommand{Id = bugId};
-            _resoleBugCommandHandler.Handle(command);
+            _resolveBugCommandHandler.Handle(command);
         }
 
         [HttpPost]
@@ -118,7 +118,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        [Route("bugs/{bugId}/AssignUser")]
+        [Route("bugs/{bugId}/assignUser")]
         public void AssignUserToBug(Guid bugId, Guid userId)
         {
             var command = new AssignUserToBugCommand{BugId = bugId, UserId = userId};
