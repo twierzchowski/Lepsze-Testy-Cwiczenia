@@ -37,7 +37,7 @@ namespace Tests
         }
 
         [Test]
-        public void AutoTriage_WhenCalled_ThenSeveiryAndPriorityAreAssigned()
+        public void AutoTriage_WhenCalled_ThenSeverityAndPriorityAreAssigned()
         {
             //Given
             Bug bug = new Bug();
