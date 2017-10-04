@@ -20,13 +20,13 @@ namespace Domain
             Severity = Severity.Medium;
             Priority = Priority.Medium;
             Status = Status.New;
-            CreatedDateTime = TimeProvider.Current.Now;
+            CreatedDateTime = DateTime.Now;
             UpdateEditionDateTime();
         }
 
         private void UpdateEditionDateTime()
         {
-            LastEditionDateTime = TimeProvider.Current.Now;
+            LastEditionDateTime = DateTime.Now;
         }
 
         public void AssignUser(User user)
@@ -113,7 +113,7 @@ namespace Domain
                 throw new DomainException("Cannot resolve bug without assigned user");
 
             //cannot edit bugs on weekends ;)
-            var dayOfWeek = TimeProvider.Current.Now.DayOfWeek;
+            var dayOfWeek = DateTime.Now.DayOfWeek;
 
             if (dayOfWeek == DayOfWeek.Saturday || 
                 dayOfWeek == DayOfWeek.Sunday)

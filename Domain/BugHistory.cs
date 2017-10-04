@@ -12,7 +12,7 @@ namespace Domain
 
         public BugHistory(Bug bug)
         {
-            ChangeTime = TimeProvider.Current.Now;
+            ChangeTime = DateTime.Now;
             Changes = $"Status: {bug.Status}, Description: {bug.Description}";
         }
     }
