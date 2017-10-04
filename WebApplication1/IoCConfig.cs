@@ -8,6 +8,7 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using DataAccess;
 using DataAccess.ReadModel;
+using Domain;
 
 namespace WebApplication
 {

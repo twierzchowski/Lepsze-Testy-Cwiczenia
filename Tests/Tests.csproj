@@ -67,7 +67,6 @@
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoTriageTests.cs" />
     <Compile Include="TestTimeProvider.cs" />
     <Compile Include="TriageServiceContractTests.cs" />
     <Compile Include="BugTests.cs" />

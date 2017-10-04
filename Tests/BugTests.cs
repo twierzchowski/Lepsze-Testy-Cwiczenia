@@ -43,6 +43,18 @@ namespace Tests
         }
 
         [Test]
+        public void Bug_WhenAutoTriage_ThenSeverityAndPriorityIsSetFromService()
+        {
+            //Given
+            Bug bug = new Bug();
+            //When
+            bug.AutoTriage(new TraigeServiceMock());
+            //Then
+            bug.Severity.ShouldBe(Severity.Low);
+            bug.Priority.ShouldBe(Priority.Low);
+        }
+
+        [Test]
         public void Bug_WhenResolve_ThenStausIsDone()
         {
             //Given
@@ -170,6 +182,19 @@ namespace Tests
             bug.Resolve();
             bug.Close("reason");
             return bug;
+        }
+    }
+
+    public class TraigeServiceMock : ITriageBugService
+    {
+        public int GetSeverity(string title, string description)
+        {
+            return 500;
+        }
+
+        public int GetPriority(string title, string description)
+        {
+            return 3;
         }
     }
 }

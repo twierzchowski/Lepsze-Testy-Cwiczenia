@@ -1,5 +1,5 @@
 ﻿using System;
-using Application;
+using Domain;
 using NUnit.Framework;
 using Shouldly;
 

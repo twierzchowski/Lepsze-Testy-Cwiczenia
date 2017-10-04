@@ -53,6 +53,47 @@ namespace Domain
             UpdateEditionDateTime();
         }
 
+        public void AutoTriage(ITriageBugService triageBugService)
+        {
+            if (Status != Status.New)
+                throw new DomainException("Cannot triage not new bug");
+
+            var severityFromExternalService = triageBugService.GetSeverity(Title, Description);
+            var priorityFromExternalService = triageBugService.GetPriority(Title, Description);
+
+            Severity = MapSeverityFromExternalService(severityFromExternalService);
+            Priority = MapPriorityFromExternalService(priorityFromExternalService);
+            Status = Status.Todo;
+            UpdateEditionDateTime();
+        }
+
+        private Priority MapPriorityFromExternalService(int priorityFromExternalService)
+        {
+            switch (priorityFromExternalService)
+            {
+                case 1:
+                    return Priority.High;
+                case 2:
+                    return Priority.Medium;
+                case 3:
+                    return Priority.Low;
+                default:
+                    throw new Exception("Invalid priority value");
+            }
+        }
+
+        private Severity MapSeverityFromExternalService(int severityFromExternalService)
+        {
+            if (severityFromExternalService < 0)
+                throw new Exception("Invalid severity value");
+            if (severityFromExternalService < 100)
+                return Severity.High;
+            if (severityFromExternalService <= 250)
+                return Severity.Medium;
+
+            return Severity.Low;
+        }
+
         public void TriageExpired()
         {
             if (Status != Status.Todo)
