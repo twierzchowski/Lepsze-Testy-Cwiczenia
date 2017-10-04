@@ -46,8 +46,6 @@ namespace WebApplication
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
-            builder.RegisterType<TriageBugService>().As<ITriageBugService>();
-
             builder.Register(db => new TestWorkshopEntities(GetConnectionString())).InstancePerRequest();
 
             builder.RegisterApiControllers(typeof(IoCConfig).Assembly);

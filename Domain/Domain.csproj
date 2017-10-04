@@ -47,7 +47,6 @@
     <Compile Include="DomainException.cs" />
     <Compile Include="IBugHistoryRepository.cs" />
     <Compile Include="IBugRepository.cs" />
-    <Compile Include="ITriageBugService.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="TriageBugService.cs" />
     <Compile Include="User.cs" />

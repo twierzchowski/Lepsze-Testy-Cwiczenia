@@ -76,8 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestTimeProvider.cs" />
-    <Compile Include="TriageServiceContractTests.cs" />
     <Compile Include="BugTests.cs" />
     <Compile Include="CreateBugUseCaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

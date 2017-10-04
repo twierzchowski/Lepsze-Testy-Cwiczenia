@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace Domain
 {
-        public class TriageBugService : ITriageBugService
+        public class TriageBugService
         {
             private readonly string _baseUrl = ConfigurationManager.AppSettings["AutoTriageServiceUrl"];
 
