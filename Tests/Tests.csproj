@@ -76,7 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoTriageTests.cs" />
+    <Compile Include="TestTimeProvider.cs" />
     <Compile Include="TriageServiceContractTests.cs" />
     <Compile Include="BugTests.cs" />
     <Compile Include="CreateBugUseCaseTests.cs" />

@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,7 +47,9 @@
     <Compile Include="DomainException.cs" />
     <Compile Include="IBugHistoryRepository.cs" />
     <Compile Include="IBugRepository.cs" />
+    <Compile Include="ITriageBugService.cs" />
     <Compile Include="IUserRepository.cs" />
+    <Compile Include="TriageBugService.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ValueObject.cs" />
     <Compile Include="Priority.cs" />
