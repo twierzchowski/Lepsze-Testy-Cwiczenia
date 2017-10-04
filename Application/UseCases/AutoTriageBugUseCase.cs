@@ -20,7 +20,7 @@ namespace Application.UseCases
             if (bug == null)
                 throw new Exception($"bug with Id ='{command.Id}' not found");
             
-            bug.AutoTriage();
+            bug.AutoTriage(new TriageBugService());
             _unitOfWork.Save();
         }
     }

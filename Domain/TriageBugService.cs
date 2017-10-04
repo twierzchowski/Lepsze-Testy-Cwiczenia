@@ -3,8 +3,8 @@ using System.Net.Http;
 
 namespace Domain
 {
-        public class TriageBugService
-        {
+        public class TriageBugService : ITriageBugService
+    {
             private readonly string _baseUrl = ConfigurationManager.AppSettings["AutoTriageServiceUrl"];
 
             public int GetSeverity(string title, string description)

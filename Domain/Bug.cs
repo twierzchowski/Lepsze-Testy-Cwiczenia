@@ -53,12 +53,11 @@ namespace Domain
             UpdateEditionDateTime();
         }
 
-        public void AutoTriage()
+        public void AutoTriage(ITriageBugService triageBugService)
         {
             if (Status != Status.New)
                 throw new DomainException("Cannot triage not new bug");
 
-            var triageBugService = new TriageBugService();
             var severityFromExternalService = triageBugService.GetSeverity(Title, Description);
             var priorityFromExternalService = triageBugService.GetPriority(Title, Description);
 
